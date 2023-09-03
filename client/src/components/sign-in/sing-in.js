@@ -17,6 +17,9 @@ export default function SignIn() {
   const sendUserData = async (data) => {
     const response = await fetch('http://localhost:3010/is_user', {
       method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
       body: JSON.stringify(data)
     });
     const res = await response.json();

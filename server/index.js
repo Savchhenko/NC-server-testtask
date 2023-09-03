@@ -1,17 +1,20 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors');
  
-const PORT = 3010; //process.env.PORT
+const PORT = 3010; // TODO создать process.env.PORT
 const app = express();
  
-const urlencodedParser = express.urlencoded({extended: false});
-// app.use((req, res, next) => {
-//   res.setHeader('Access-Control-Allow-Origin', '*');
-//   console.log(`${req.method} ${req.url}`);
-//   next();
-// });
+app.use(cors({
+  origin: 'http://localhost:3000',
+  credentials: true
+}));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use((req, res, next) => {
+  console.log(`${req.method} ${req.url}`);
+  next();
+});
  
 app.listen(PORT, () => {
   console.log(`Server listening on ${PORT}`);
