@@ -35,15 +35,14 @@ export default function SignIn() {
     event.preventDefault();
     let data = new FormData(event.currentTarget);
     data = {
-      email: data.get('email'),
+      login: data.get('email'),
       password: data.get('password'),
     };
-    console.log('data: ', data);
+    console.log('formData: ', data);
 
     sendUserData(data)
     .then(res => {
-      console.log('res.express: ', res.express);
-      console.log('res.data: ', res.data);
+      console.log('res.isRegistered: ', res.data);
       setState(res.express);
     })
     .catch(err => console.log(err));
