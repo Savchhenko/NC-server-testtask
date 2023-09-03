@@ -35,7 +35,7 @@ export default function SignIn() {
     event.preventDefault();
     let data = new FormData(event.currentTarget);
     data = {
-      login: data.get('email'),
+      login: data.get('login'),
       password: data.get('password'),
     };
     console.log('formData: ', data);
@@ -43,7 +43,7 @@ export default function SignIn() {
     sendUserData(data)
     .then(res => {
       console.log('res.isRegistered: ', res.data);
-      setState(res.express);
+      // setState(res.express);
     })
     .catch(err => console.log(err));
   };
@@ -70,12 +70,11 @@ export default function SignIn() {
               margin="normal"
               required
               fullWidth
-              id="email"
+              id="login"
               label="Логин"
-              name="email"
-              autoComplete="email"
+              name="login"
               autoFocus
-            /> {/*TODO переделать имейл под логин*/}
+            />
             <TextField
               margin="normal"
               required
