@@ -43,7 +43,7 @@ export default function SignIn() {
     sendUserData(data)
     .then(res => {
       console.log('res.isRegistered: ', res.data);
-      // setState(res.express);
+      setState(res.data);
     })
     .catch(err => console.log(err));
   };
