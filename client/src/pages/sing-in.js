@@ -43,7 +43,8 @@ export default function SignIn() {
     sendUserData(data)
     .then(res => {
       console.log('res.isRegistered: ', res.data);
-      setState(res.data);
+      if (res.data) window.location.href = 'http://localhost:3000/welcome';
+      // setState(res.data);
     })
     .catch(err => console.log(err));
   };
