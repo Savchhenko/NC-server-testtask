@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -10,14 +10,40 @@ import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 
+
 export default function SignIn() {
+  const [state, setState] = useState(null);
+
+  const sendUserData = async (data) => {
+    const response = await fetch('http://localhost:3010/is_user', {
+      method: 'POST',
+      body: JSON.stringify(data)
+    });
+    const res = await response.json();
+    console.log('res: ', res);
+
+    if (response.status !== 200) {
+      throw Error(res.message)
+    }
+    return res;
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
+    let data = new FormData(event.currentTarget);
+    data = {
       email: data.get('email'),
       password: data.get('password'),
-    });
+    };
+    console.log('data: ', data);
+
+    sendUserData(data)
+    .then(res => {
+      console.log('res.express: ', res.express);
+      console.log('res.data: ', res.data);
+      setState(res.express);
+    })
+    .catch(err => console.log(err));
   };
 
   return (
@@ -47,7 +73,7 @@ export default function SignIn() {
               name="email"
               autoComplete="email"
               autoFocus
-            /> //TODO переделать имейл под логин
+            /> {/*TODO переделать имейл под логин*/}
             <TextField
               margin="normal"
               required
