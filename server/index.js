@@ -30,10 +30,22 @@ const checkUserIsRegistered = ({ login, password }) => {
   return isRegistered;
 }
 
+const registerNewUser = ({ login, password }) => {
+  users.push({ login, password });
+  console.log('users: ', users);
+
+  return true;
+}
+
 app.post('/is_user', (req, res) => {
   let data = req.body;
   
   console.log(checkUserIsRegistered(data));
   res.send({ status: "200", data: checkUserIsRegistered(data) });
+});
+
+app.post('/registration', (req, res) => {
+  let data = req.body;
+  res.send({ status: "200", data: registerNewUser(data) });
 });
 

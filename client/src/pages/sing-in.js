@@ -31,9 +31,24 @@ export default function SignIn() {
     return res;
   };
 
-  // const handleSubmit = (event) => {
-  const logInClickHandler = (event) => {
-    event.preventDefault();
+  const registerUser = async (data) => {
+    const response = await fetch('http://localhost:3010/registration', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data)
+    });
+    const res = await response.json();
+    console.log('res: ', res);
+
+    if (response.status !== 200) {
+      throw Error(res.message)
+    }
+    return res;
+  }
+
+  const getFormData = (event) => {
     const formElement = event.currentTarget.closest('form');
     let data = new FormData(formElement);
     data = {
@@ -41,6 +56,13 @@ export default function SignIn() {
       password: data.get('password'),
     };
     console.log('formData: ', data);
+
+    return data;
+  }
+
+  const logInClickHandler = (event) => {
+    event.preventDefault();
+    const data = getFormData(event);
 
     sendUserData(data)
     .then(res => {
@@ -52,7 +74,13 @@ export default function SignIn() {
   };
 
   const registerClickHandler = (event) => {
-    console.log('Зарегистрироваться')
+    event.preventDefault();
+    const data = getFormData(event);
+
+    registerUser(data)
+    .then(res => {
+      console.log('res.isSuccessfullyRegistered: ', res.data);
+    })
   }
 
   return (
