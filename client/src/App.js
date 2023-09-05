@@ -1,5 +1,5 @@
 import './App.css';
-import SignIn from './components/sign-in/sing-in';
+import SignIn from './pages/sing-in';
 
 function App() {
   return (
