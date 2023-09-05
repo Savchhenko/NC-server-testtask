@@ -1,9 +1,9 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
-const users = require('./db/db.js');
+const users = require('./db/db.js'); //данные пользователей из "базы данных"
  
-const PORT = 3010; // TODO создать process.env.PORT
+const PORT = 3010;
 const app = express();
  
 app.use(cors({
@@ -18,10 +18,11 @@ app.use((req, res, next) => {
 });
  
 app.listen(PORT, () => {
-  console.log(`Server listening on ${PORT}`);
-  console.log('users: ', users);
+  console.log(`Сервер запущен на ${PORT}`);
+  console.log('Существующие пользователи: ', users);
 });
 
+//проверяет существует ли пользователь с такими данными
 const checkUserIsRegistered = ({ login, password }) => {
   let isRegistered = null;
   const user = users.find((user) => user.login === login && user.password === password);
@@ -30,6 +31,7 @@ const checkUserIsRegistered = ({ login, password }) => {
   return isRegistered;
 }
 
+//регистрация нового пользователя 
 const registerNewUser = ({ login, password }) => {
   users.push({ login, password });
   console.log('users: ', users);
@@ -37,15 +39,14 @@ const registerNewUser = ({ login, password }) => {
   return true;
 }
 
+//маршрут аутентификации
 app.post('/is_user', (req, res) => {
   let data = req.body;
-  
-  console.log(checkUserIsRegistered(data));
   res.send({ status: "200", data: checkUserIsRegistered(data) });
 });
 
+//маршрут регистрации нового пользователя
 app.post('/registration', (req, res) => {
   let data = req.body;
   res.send({ status: "200", data: registerNewUser(data) });
 });
-

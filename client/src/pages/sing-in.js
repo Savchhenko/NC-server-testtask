@@ -1,10 +1,8 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import Link from '@mui/material/Link';
-import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
@@ -12,8 +10,8 @@ import Container from '@mui/material/Container';
 
 
 export default function SignIn() {
-  const [state, setState] = useState(null);
 
+  //отправка данных на сервер для аутентификации пользователя
   const sendUserData = async (data) => {
     const response = await fetch('http://localhost:3010/is_user', {
       method: 'POST',
@@ -23,7 +21,6 @@ export default function SignIn() {
       body: JSON.stringify(data)
     });
     const res = await response.json();
-    console.log('res: ', res);
 
     if (response.status !== 200) {
       throw Error(res.message)
@@ -31,6 +28,7 @@ export default function SignIn() {
     return res;
   };
 
+  //отправка данных на сервер для регистрации пользователя
   const registerUser = async (data) => {
     const response = await fetch('http://localhost:3010/registration', {
       method: 'POST',
@@ -40,7 +38,6 @@ export default function SignIn() {
       body: JSON.stringify(data)
     });
     const res = await response.json();
-    console.log('res: ', res);
 
     if (response.status !== 200) {
       throw Error(res.message)
@@ -48,6 +45,7 @@ export default function SignIn() {
     return res;
   }
 
+  //получение данных из формы
   const getFormData = (event) => {
     const formElement = event.currentTarget.closest('form');
     let data = new FormData(formElement);
@@ -60,6 +58,7 @@ export default function SignIn() {
     return data;
   }
 
+  //обработка клика по кнопке Войти
   const logInClickHandler = (event) => {
     event.preventDefault();
     const data = getFormData(event);
@@ -73,6 +72,7 @@ export default function SignIn() {
     .catch(err => console.log(err));
   };
 
+  //обработка клика по кнопке Зарегистрироваться
   const registerClickHandler = (event) => {
     event.preventDefault();
     const data = getFormData(event);
