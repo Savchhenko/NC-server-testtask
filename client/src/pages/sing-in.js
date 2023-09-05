@@ -31,9 +31,11 @@ export default function SignIn() {
     return res;
   };
 
-  const handleSubmit = (event) => {
+  // const handleSubmit = (event) => {
+  const logInClickHandler = (event) => {
     event.preventDefault();
-    let data = new FormData(event.currentTarget);
+    const formElement = event.currentTarget.closest('form');
+    let data = new FormData(formElement);
     data = {
       login: data.get('login'),
       password: data.get('password'),
@@ -48,6 +50,10 @@ export default function SignIn() {
     })
     .catch(err => console.log(err));
   };
+
+  const registerClickHandler = (event) => {
+    console.log('Зарегистрироваться')
+  }
 
   return (
       <Container component="main" maxWidth="xs">
@@ -66,7 +72,7 @@ export default function SignIn() {
           <Typography component="h1" variant="h5">
             Войти
           </Typography>
-          <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 1 }}>
+          <Box component="form" noValidate sx={{ mt: 1 }}>
             <TextField
               margin="normal"
               required
@@ -86,21 +92,29 @@ export default function SignIn() {
               id="password"
               autoComplete="current-password"
             />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              sx={{ mt: 3, mb: 2 }}
-            >
-              Войти
-            </Button>
-            <Grid container>
-              <Grid item>
-                <Link href="#" variant="body2">
-                  {"Нет аккаунта? Зарегистрироваться"}
-                </Link>
-              </Grid>
-            </Grid>
+
+            <Box
+              sx={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                marginTop: '3vh'
+              }}>
+              <Button 
+                onClick={ logInClickHandler }
+                type="submit" 
+                variant="contained"
+              >
+                Войти
+              </Button>
+              <Button 
+                onClick={ registerClickHandler }
+                type="submit" 
+                variant="contained"
+              >
+                Зарегистрироваться
+              </Button>
+            </Box>
+
           </Box>
         </Box>
       </Container>
