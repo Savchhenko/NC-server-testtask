@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -10,6 +10,7 @@ import Container from '@mui/material/Container';
 
 
 export default function SignIn() {
+  const [fieldError, setFieldError] = useState(false);
 
   //отправка данных на сервер для аутентификации пользователя
   const sendUserData = async (data) => {
@@ -66,8 +67,12 @@ export default function SignIn() {
     sendUserData(data)
     .then(res => {
       console.log('res.isRegistered: ', res.data);
-      if (res.data) window.location.href = 'http://localhost:3000/welcome';
-      // setState(res.data);
+      if (res.data) {
+        setFieldError(false);
+        window.location.href = 'http://localhost:3000/welcome';
+      } else {
+        setFieldError(true);
+      }
     })
     .catch(err => console.log(err));
   };
@@ -79,6 +84,7 @@ export default function SignIn() {
 
     registerUser(data)
     .then(res => {
+      setFieldError(false);
       console.log('res.isSuccessfullyRegistered: ', res.data);
     })
   }
@@ -108,7 +114,8 @@ export default function SignIn() {
               id="login"
               label="Логин"
               name="login"
-              autoFocus
+              error={fieldError}
+              {...(fieldError && { helperText: 'Неверные данные' })}
             />
             <TextField
               margin="normal"
@@ -118,7 +125,8 @@ export default function SignIn() {
               label="Пароль"
               type="password"
               id="password"
-              autoComplete="current-password"
+              error={fieldError}
+              {...(fieldError && { helperText: 'Неверные данные' })}
             />
 
             <Box
